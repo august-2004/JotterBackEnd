@@ -12,7 +12,7 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json())
 
-mongoose.connect('mongodb://127.0.0.1:27017/allmynotes').then(()=>
+mongoose.connect('mongodb+srv://nathan3172004:hEdGLImjYFEWlUZe@allmynotes.q03hnxi.mongodb.net/?retryWrites=true&w=majority&appName=allmynotes/allmynotes').then(()=>
         console.log("Connected sucessfuly to the database")).catch((err)=>console.log(err));
 
 app.get('/', (request,response)=>
