@@ -17,7 +17,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/allmynotes').then(()=>
 
 app.get('/', (request,response)=>
 {
-     response.sendStatus(200);
+     response.send(200,"The server works");
 });
 
 app.post('/postnote', async (req,res) => {
