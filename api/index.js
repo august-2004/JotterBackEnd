@@ -10,7 +10,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3001;
 app.use(cors({
-    origin: "https://jotterapp.vercel.app/",
+    origin: "https://jotterapp.vercel.app",
     
 },{
     origin: "https://localhost:5173",
