@@ -21,6 +21,14 @@ app.use(express.json())
 mongoose.connect('mongodb+srv://nathan3172004:hEdGLImjYFEWlUZe@allmynotes.q03hnxi.mongodb.net/?retryWrites=true&w=majority&appName=allmynotes/allmynotes').then(()=>
         console.log("Connected sucessfuly to the database")).catch((err)=>console.log(err));
 
+        app.use((req, res, next) => {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.header(
+              "Access-Control-Allow-Headers",
+              "Origin, X-Requested-With, Content-Type, Accept"
+            );
+            next();
+          });
 app.get('/', (request,response)=>
 {
      response.send(200,"The server works");
