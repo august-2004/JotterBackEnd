@@ -36,6 +36,7 @@ app.get('/', (request,response)=>
 
 app.post('/postnote', async (req,res) => {
     console.log(req.body);
+    res.header("Access-Control-Allow-Origin", "*");
     const {heading , para} = req.body;
     const newNote = await noteData.create(req.body);
     await    newNote.save();
