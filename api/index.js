@@ -29,7 +29,7 @@ app.post('/postnote', async (req,res) => {
     
 })
 
-app.post('/getnote', async (req,res) => {
+app.get('/getnote', async (req,res) => {
     console.log(req.body);
     const all = await noteData.find();
     res.send(all);
