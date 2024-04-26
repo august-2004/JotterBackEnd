@@ -9,7 +9,10 @@ const cors = require('cors');
 
 const app = express();
 const PORT = 3001;
-app.use(cors());
+app.use(cors({
+    origin: "http://jotterapp.vercel.app/",
+    methods : ["GET","POST"],
+}));
 app.use(express.json())
 
 mongoose.connect('mongodb+srv://nathan3172004:hEdGLImjYFEWlUZe@allmynotes.q03hnxi.mongodb.net/?retryWrites=true&w=majority&appName=allmynotes/allmynotes').then(()=>
