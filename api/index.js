@@ -11,10 +11,10 @@ const app = express();
 const PORT = 3001;
 app.use(cors({
     origin: "http://jotterapp.vercel.app/",
-    methods : ["GET","POST"],
+    
 },{
     origin: "http://localhost:5173",
-    methods : ["GET","POST"],
+    
 }));
 app.use(express.json())
 
@@ -23,10 +23,7 @@ mongoose.connect('mongodb+srv://nathan3172004:hEdGLImjYFEWlUZe@allmynotes.q03hnx
 
         app.use((req, res, next) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.header(
-              "Access-Control-Allow-Headers",
-              "Origin, X-Requested-With, Content-Type, Accept"
-            );
+            
             next();
           });
 app.get('/', (request,response)=>
