@@ -12,6 +12,9 @@ const PORT = 3001;
 app.use(cors({
     origin: "http://jotterapp.vercel.app/",
     methods : ["GET","POST"],
+},{
+    origin: "http://localhost:5173",
+    methods : ["GET","POST"],
 }));
 app.use(express.json())
 
