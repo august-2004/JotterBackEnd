@@ -18,7 +18,7 @@ app.use(cors({
 }));
 app.use(express.json())
 
-mongoose.connect('mongodb+srv://nathan3172004:hEdGLImjYFEWlUZe@allmynotes.q03hnxi.mongodb.net/?retryWrites=true&w=majority&appName=allmynotes/allmynotes').then(()=>
+mongoose.connect(process.env.MONGOACCESSS).then(()=>
         console.log("Connected sucessfuly to the database")).catch((err)=>console.log(err));
 
         app.use((req, res, next) => {
