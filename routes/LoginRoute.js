@@ -17,6 +17,7 @@ LoginRoute.post('/success',async (req,res)=>{
     const username = req.user.username
     const allNotes = await Notes.find({username})
     res.status(200).json({
+        isLoggedIn: true,
         username,
         noteArray : allNotes
     });}
@@ -33,5 +34,16 @@ LoginRoute.post('/failure', (req, res) => {
         });
     });
 
-
+LoginRoute.post('/logout',(req,res)=>{
+    req.logout((error) => {
+        if (error) {
+            return res.status(500).json({
+                error
+            });
+        }
+    });
+    res.status(200).json({
+        isLoggedIn : false
+    })
+})
 module.exports = LoginRoute;

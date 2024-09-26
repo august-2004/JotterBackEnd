@@ -5,6 +5,7 @@ const cors = require('cors');
 const LocalStrategy = require('passport-local')
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
+const MongoStore = require('connect-mongo');
 require('dotenv').config();
 
 const RegisterRoute = require('../routes/RegisterRoute');
@@ -23,7 +24,16 @@ mongoose.connect(process.env.MONGOACCESSS)
     .catch((err)=>console.log(err));
 
 
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+    mongoUrl: process.env.MONGOACCESSS , 
+    collectionName: 'sessions',
+  }),
+
+ }));
 app.use(passport.initialize());
 app.use(passport.session());
 
