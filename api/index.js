@@ -59,9 +59,21 @@ passport.deserializeUser(async (id, done) => {
 });
 
 
-app.get('/', (request,response)=>
-    {
-        response.send(200,"The server works");
+app.get('/getnote', async (request,response)=>
+    {   if(request.isAuthenticated()){
+        const username = request.user.username
+        const allNotes = await Notes.find({username})
+        response.status(200).json({
+            isLoggedIn: true,
+            username,
+            noteArray : allNotes
+    });}
+    else{
+        request.logout();
+        response.status(401).json({
+            isLoggedIn:false
+        })
+    }   
     });
 
 app.use(RegisterRoute);
