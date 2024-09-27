@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
@@ -18,7 +19,8 @@ const User = require('../models/userSchema')
 
 const app = express();
 const PORT = 3001;
-const allowedOrigins = "https://jotterapp.vercel.app";
+
+const allowedOrigins = ["https://jotterapp.vercel.app","http://localhost:5173"];
 
 app.use(cors({
   origin: allowedOrigins,
@@ -40,9 +42,11 @@ app.use(session({
         collectionName: 'sessions',
         }),
     cookie: {
-            secure: true, 
-            sameSite: 'None',
-            maxAge: 1000*60*60*24 
+            secure: false, 
+            maxAge: 1000*60*60*24,
+            sameSite: 'Lax',
+            path: '/',
+            httpOnly: true
         }
 }));
 app.use(passport.initialize());
@@ -70,14 +74,21 @@ passport.deserializeUser(async (id, done) => {
 });
 
 
-app.post('/', async (request,response)=>
+
+
+
+
+app.listen(3000);
+
+
+app.post('/getnote', async (request,response)=>
     {   if(request.isAuthenticated()){
-        console.log(request.isAuthenticated() + "user auth?")
+        console.log("User " + request.user.username +" authentication: "+ request.isAuthenticated())
         const username = request.user.username
-        const allNotes = await Notes.find({username})
+        const allNotes = await Notes.find({username});
         response.status(200).json({
             username,
-            noteArray : allNotes
+            noteArray : allNotes,
     });}
     else{
         response.status(401).json({

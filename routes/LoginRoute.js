@@ -11,7 +11,7 @@ LoginRoute.post('/login',passport.authenticate('local'),async(req,res)=>{
         res.status(200).json({
             username,
             isLoggedIn:true,
-            allNotes
+            noteArray:allNotes
 
         })
     }

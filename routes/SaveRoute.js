@@ -10,9 +10,11 @@ SaveRoute.post('/postnote', async (req,res)=>{
     const newNote = new Notes({
         username,heading,body
     });
-    const savedNote = await newNote.save();
+    await newNote.save();
+    const allNotes = await Notes.find({username})
     res.status(200).json({
-        savedNote
+        good: "yes",
+        noteArray: allNotes
     })
     }
     catch(error){
