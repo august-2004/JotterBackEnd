@@ -18,7 +18,7 @@ const User = require('../models/userSchema')
 
 const app = express();
 const PORT = 3001;
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173',"https://jotterapp.vercel.app"];
 
 app.use(cors({
   origin: allowedOrigins,
