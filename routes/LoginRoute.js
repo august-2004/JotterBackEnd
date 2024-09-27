@@ -4,35 +4,42 @@ const Notes = require('../models/noteSchema')
 
 const LoginRoute = express.Router();
 
-LoginRoute.post('/login', (req,res,next)=>{
-        next();
-    },passport.authenticate('local', {
-        successRedirect: '/success',
-        failureRedirect: '/failure',
-    }));
+LoginRoute.post('/login',passport.authenticate('local'),async(req,res)=>{
+    if(req.user){
+        const username= req.user.username;
+        const allNotes = await Notes.find({username})
+        res.status(200).json({
+            username,
+            isLoggedIn:true,
+            allNotes
 
-
-LoginRoute.post('/success',async (req,res)=>{
-    try{
-    const username = req.user.username
-    const allNotes = await Notes.find({username})
-    res.status(200).json({
-        isLoggedIn: true,
-        username,
-        noteArray : allNotes
-    });}
-    catch(error){
-        res.status(400).json({
-            error
         })
     }
+    else{
+        res.status(401).json({
+            error: "Error in logging in"
+        })
+    }
+    
 });
 
-LoginRoute.post('/failure', (req, res) => {
-        res.status(401).json({
-            error: "Try again"
-        });
-    });
+
+// LoginRoute.post('/success',async (req,res)=>{
+    
+//     const username = req.user.username;
+//     res.status(200).json({
+//         isLoggedIn: true,
+//         username
+//     });
+    
+// });
+
+// LoginRoute.get('/failure', (req, res) => {
+//         res.status(401).json({
+//             error: "Try again"
+//         });
+//     });
+
 
 LoginRoute.post('/logout',(req,res)=>{
     req.logout((error) => {

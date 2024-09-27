@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
+const Notes = require('../models/noteSchema')
+
 
 const RegisterRoute = require('../routes/RegisterRoute');
 const LoginRoute = require('../routes/LoginRoute');
@@ -16,7 +18,12 @@ const User = require('../models/userSchema')
 
 const app = express();
 const PORT = 3001;
-app.use(cors());
+const allowedOrigins = ['http://localhost:5173'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true 
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGOACCESSS)
@@ -29,11 +36,15 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-    mongoUrl: process.env.MONGOACCESSS , 
-    collectionName: 'sessions',
-  }),
-
- }));
+        mongoUrl: process.env.MONGOACCESSS , 
+        collectionName: 'sessions',
+        }),
+    cookie: {
+            secure: true, 
+            sameSite: 'None',
+            maxAge: 1000*60*60*24 
+        }
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -59,21 +70,20 @@ passport.deserializeUser(async (id, done) => {
 });
 
 
-app.get('/getnote', async (request,response)=>
+app.post('/', async (request,response)=>
     {   if(request.isAuthenticated()){
+        console.log(request.isAuthenticated() + "user auth?")
         const username = request.user.username
         const allNotes = await Notes.find({username})
         response.status(200).json({
-            isLoggedIn: true,
             username,
             noteArray : allNotes
     });}
     else{
-        request.logout();
         response.status(401).json({
-            isLoggedIn:false
+            isLoggedIn : false
         })
-    }   
+        }
     });
 
 app.use(RegisterRoute);
