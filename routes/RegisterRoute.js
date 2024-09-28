@@ -2,10 +2,12 @@ const express = require('express');
 const User = require('../models/userSchema');
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10;
+const passport = require('passport')
+
 
 const RegisterRoute = express.Router();
 
-RegisterRoute.post('/register',async (req,res)=>{
+RegisterRoute.post('/register',async (req,res,next)=>{
     try{
 
         
@@ -24,12 +26,26 @@ RegisterRoute.post('/register',async (req,res)=>{
             password: hashedPassword,
         });
         await newUser.save();
-        res.status(201).json({ message: 'User registered, Please Login In', isLoggedIn: true,username,noteArray: [] });
+        next();
     }
     catch (error) {
         console.log(error)
-        res.status(500).json({ message: 'Server error' });
+        return res.status(500).json({ message: 'Server error' });
       }
+},passport.authenticate('local'), (req,res)=>{
+    if(req.user){
+        const username= req.user.username;
+        res.status(200).json({
+            username,
+            isLoggedIn:true,
+            noteArray:[]
+        })
+    }
+    else{
+        res.status(401).json({
+            error: "Error in logging in"
+        })
+    }
 })
 
 
