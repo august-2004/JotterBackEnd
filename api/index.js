@@ -23,7 +23,7 @@ const PORT = 3001;
 const allowedOrigins = ["https://jotterapp.vercel.app"];
 
 app.use(cors({
-  origin: "https://jotterapp.vercel.app",
+  origin: "https://thejotterapp.netlify.app/",
   credentials: true 
 }));
 
