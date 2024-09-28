@@ -23,9 +23,8 @@ RegisterRoute.post('/register',async (req,res)=>{
             username,
             password: hashedPassword,
         });
-        console.log(newUser)
         await newUser.save();
-        res.status(201).json({ message: 'User registered, Please Login In', showLogin: true });
+        res.status(201).json({ message: 'User registered, Please Login In', isLoggedIn: true,username,noteArray: [] });
     }
     catch (error) {
         console.log(error)

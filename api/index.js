@@ -23,7 +23,7 @@ const PORT = 3001;
 const allowedOrigins = ["https://jotterapp.vercel.app"];
 
 app.use(cors({
-  origin: "https://thejotterapp.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true 
 }));
 
@@ -43,10 +43,10 @@ app.use(session({
         collectionName: 'sessions',
         }),
     cookie: {
-            secure: true, 
+            secure: false, 
             maxAge: 1000*60*60*24,
             path: '/',
-            sameSite:"None",
+            sameSite:"Lax",
             httpOnly:true
         }
 }));
@@ -102,10 +102,15 @@ app.use(RegisterRoute);
 app.use(LoginRoute);
 app.use(SaveRoute);
 
-// app.use(express.static(path.join(__dirname, 'dist')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-// });
+app.use(express.static(path.join(__dirname, 'dist')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+  
 
 
 

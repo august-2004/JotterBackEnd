@@ -49,6 +49,7 @@ LoginRoute.post('/logout',(req,res)=>{
             });
         }
     });
+    console.log("logged Out")
     res.status(200).json({
         isLoggedIn : false
     })
