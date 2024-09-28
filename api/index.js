@@ -42,9 +42,8 @@ app.use(session({
         collectionName: 'sessions',
         }),
     cookie: {
-            secure: true, 
+            secure: false, 
             maxAge: 1000*60*60*24,
-            sameSite: 'None',
             path: '/',
             httpOnly: true
         }
@@ -101,6 +100,10 @@ app.use(RegisterRoute);
 app.use(LoginRoute);
 app.use(SaveRoute);
 
+// app.use(express.static(path.join(__dirname, 'dist')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// });
 
 
 
