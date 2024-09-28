@@ -46,7 +46,8 @@ app.use(session({
             secure: true, 
             maxAge: 1000*60*60*24,
             path: '/',
-            sameSite:"None"
+            sameSite:"None",
+            httpOnly:true
         }
 }));
 app.use(passport.initialize());
